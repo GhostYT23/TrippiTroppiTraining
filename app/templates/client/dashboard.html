@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}Le mie schede{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <h2 class="mb-3">Le mie schede</h2>
+
+  <table class="table align-middle">
+    <thead class="table-dark">
+      <tr>
+        <th>#</th>
+        <th>Nome</th>
+        <th>Creato il</th>
+        <th class="text-end">Azioni</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for plan in plans %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ plan.name }}</td>
+        <td>{{ plan.created_at|datetime('%d/%m/%Y') }}</td>
+        <td class="text-end">
+          <!-- Apri (esecuzione) -->
+          <a href="{{ url_for('client.workout_do',
+                              plan_id=plan.id, pos=1) }}"
+             class="btn btn-sm btn-outline-secondary">Apri</a>
+
+          <!-- Modifica parametri -->
+          <a href="{{ url_for('client.edit_workout',
+                              plan_id=plan.id) }}"
+             class="btn btn-sm btn-primary">Modifica</a>
+
+             <a href="{{ url_for('client.workout_view', plan_id=plan.id) }}"
+   class="btn btn-sm btn-outline-info">Dettagli</a>
+
+        </td>
+      </tr>
+    {% else %}
+      <tr>
+        <td colspan="4" class="text-center py-4">
+          Nessuna scheda disponibile.
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
